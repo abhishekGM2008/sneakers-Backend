@@ -259,7 +259,7 @@ app.post("/sneakers/cart/add", async(req, res) => {
 //10. API to get all Sneakers from Cart..
 const getCartSneakers = async() => {
     try{
-        const getCart = await CartAdded.find().populate(sneakersInCart)
+        const getCart = await CartAdded.find().populate("sneakersInCart")
         return getCart
     } 
     catch(error){
@@ -284,7 +284,7 @@ app.get("/sneakers/cart/get", async(req, res) => {
 //11. API for delete the Sneakers from the Cart.
 const deleteSneakersCart = async(sneakersId) => {
     try{
-        const deletedCartSneakers = await CartAdded.findByIdAndDelete(sneakersId).populate(sneakersInCart)
+        const deletedCartSneakers = await CartAdded.findByIdAndDelete(sneakersId).populate("sneakersInCart")
         return deletedCartSneakers
     }
     catch(error) {
@@ -442,7 +442,7 @@ app.get("/sneakers/order/get", async(req, res) => {
 //17. API to delete the ordered Sneakers.
 const deleteOrder = async(orderId) => {
     try{
-        const orderDelete = await SneakersOrderHistory.findByIdAndDelete(orderId, {new: true}).populate(orderedSneakersFromCart).populate(orderedSneakersFromBuyNow)
+        const orderDelete = await SneakersOrderHistory.findByIdAndDelete(orderId, {new: true}).populate("orderedSneakersFromCart").populate(orderedSneakersFromBuyNow)
         return orderDelete
     }
     catch(error){
