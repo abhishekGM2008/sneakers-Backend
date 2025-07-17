@@ -183,7 +183,7 @@ app.post("/sneakers/wishlist/add", async (req, res) => {
 //7. API for get all wishlist products..
 const getWishlistSneakers = async () => {
     try{
-        const wishlistSneakers = await WishListAdded.find().populate(sneakersInWishlist)
+        const wishlistSneakers = await WishListAdded.find().populate("sneakersInWishlist")
         return wishlistSneakers
     } 
     catch(error){
