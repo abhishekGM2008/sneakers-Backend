@@ -207,7 +207,7 @@ app.get("/sneakers/wishlist/get", async(req, res) => {
 //8. API for delete wishlist Sneakers..
 const deleteWishlist = async(sneakersId) => {
     try{
-        const deletedWishlistSneakers = await WishListAdded.findByIdAndDelete(sneakersId).populate(sneakersInWishlist)
+        const deletedWishlistSneakers = await WishListAdded.findByIdAndDelete(sneakersId).populate("sneakersInWishlist")
         return deletedWishlistSneakers
     }
     catch(error){
