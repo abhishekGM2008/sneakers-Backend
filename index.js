@@ -306,6 +306,32 @@ app.delete("/sneakers/cart/delete/:sneakersId", async(req, res) => {
     }
 })
 
+//API to update cart
+const updateSneakersCart = async (sneakerId, updatedDetails) => {
+    try{
+        const updateSneakers = await CartAdded.findByIdAndUpdate(sneakerId, updatedDetails, {new: true}).populate("sneakersInCart")
+        const saveSneakers = await updateSneakers.save()
+        return saveSneakers
+    }
+    catch(error){
+        console.log("error occured while updating cart sneakers:", error)
+    }
+}
+
+app.post("/sneakers/cart/update/:sneakersId", async (req, res) => {
+    try{
+        const sneakers = await updateSneakersCart(req.params.sneakersId, req.body)
+        if(sneakers){
+            res.status(200).send({message: "cart Sneakers updated successfully.", data: sneakers})
+        } else {
+            res.status(404).send({error: "No cart sneakers found."})
+        }
+    }
+    catch(error){
+        res.status(500).send({error: "failed to update cart sneakers."})
+    }
+})
+
 //12. API for add address..
 const addUserAddress = async(addAddress) => {
     try{
