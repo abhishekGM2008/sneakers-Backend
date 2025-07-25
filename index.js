@@ -110,6 +110,31 @@ app.get("/sneakers/id/:sneakersId", async (req, res) => {
     }
 })
 
+//. Tp Get Sneakers by Category
+const getSneakersByCategory = async (sneakersCategory) => {
+    try{
+        const sneakers = await Sneakers.find({category: sneakersCategory})
+        return sneakers
+    }
+    catch(error){
+        console.log("error occured while getting Snekaers", error)
+    }
+}
+
+app.get('/sneakers/category/:sneakerscategory', async (req, res) => {
+    try{
+        const sneakers = await getSneakersByCategory(req.params.sneakerscategory)
+        if(sneakers.length > 0){
+            res.status(200).send({message: "Sneakers Found", data: sneakers})
+        } else {
+            res.status(400).send({error: "No Sneakers Found."})
+        }
+    } 
+    catch(error){
+        res.status(500).send({error: "no Snekaers found."})
+    }
+})
+
 //4. To Update Sneakers By Id..
 const updateSneakers = async (sneakersId , updateDetails) => {
     try{
