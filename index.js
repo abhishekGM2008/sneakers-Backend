@@ -284,7 +284,12 @@ app.post("/sneakers/cart/add", async(req, res) => {
 //10. API to get all Sneakers from Cart..
 const getCartSneakers = async() => {
     try{
-        const getCart = await CartAdded.find().populate("sneakersInCart")
+        const getCart = await CartAdded.find()
+        .populate({
+            path: "sneakersInCart",
+            model:"Sneakers",
+            select: "-__v"
+        });
         return getCart
     } 
     catch(error){
