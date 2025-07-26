@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const productsSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true, // Ensures every product has a title
+    required: true,
     trim: true
   },
   tagline: {
@@ -13,7 +13,7 @@ const productsSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-    min: 0 // No negative pricing
+    min: 0 
   },
   productImage: {
     type: String,
@@ -39,10 +39,10 @@ const productsSchema = new mongoose.Schema({
   quantity: {
     type: Number,
     default: 0,
-    min: 0 // Prevent negative stock
+    min:0
   }
 }, {
-  timestamps: true // Adds createdAt and updatedAt fields
+  timestamps: true 
 });
 
 const Sneakers = mongoose.model("Sneakers", productsSchema);
