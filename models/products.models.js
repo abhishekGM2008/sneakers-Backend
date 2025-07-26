@@ -1,38 +1,48 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const productsSchema = new mongoose.Schema({
-   title: {
+  title: {
     type: String,
-   } ,
-   tagline: {
-      type: String
-   },
-   price:{
-      type: Number
-   },
-   productImage: {
-      type: String
-   },
-   category: {
+    required: true, // Ensures every product has a title
+    trim: true
+  },
+  tagline: {
     type: String,
-    enum: ["Men", "Unisex"]
-   },
-   details: {
+    trim: true
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0 // No negative pricing
+  },
+  productImage: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ["Men", "Unisex"],
+    required: true
+  },
+  details: {
     type: String
-   },
-   color: {
-      type: String
-   },
-   style: {
-      type: String
-   },
-   origin: {
-      type: String
-   },
-   quantity: {
-      type:Number,
-      default: 0
-   }
+  },
+  color: {
+    type: String
+  },
+  style: {
+    type: String
+  },
+  origin: {
+    type: String
+  },
+  quantity: {
+    type: Number,
+    default: 0,
+    min: 0 // Prevent negative stock
+  }
+}, {
+  timestamps: true // Adds createdAt and updatedAt fields
 });
 
 const Sneakers = mongoose.model("Sneakers", productsSchema);
