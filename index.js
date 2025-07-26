@@ -281,30 +281,37 @@ app.post("/sneakers/cart/add", async(req, res) => {
     }
 })
 
-//10. API to get all Sneakers from Cart..
-const getCartSneakers = async() => {
-    try{
-        const getCart = await CartAdded.find().populate("sneakersCart")
-        return getCart
-    } 
-    catch(error){
-        console.log("Error occured while Getting Sneakers from Cart.")
-    }
-}
+// Fetch CartAdded documents with sneakers populated
+const getCartSneakers = async () => {
+  try {
+    const cartItems = await CartAdded.find()
+      .populate({
+        path: "sneakersCart",
+        select: "-__v -createdAt -updatedAt"  // select sneaker fields you want
+      })
+      .exec();
+    return cartItems;
+  } catch (error) {
+    console.error("Error fetching cart sneakers:", error);
+    throw error;
+  }
+};
 
-app.get("/sneakers/cart/all", async(req, res) => {
-    try{
-        const cartSneakers = await getCartSneakers()
-        if(cartSneakers.length > 0) {
-            res.status(200).send({message: "All Sneakers from cart are found.", data: cartSneakers})
-        } else {
-            res.status(400).send({error: "No Sneakers from cart are found"})
-        }
+// API route that returns cart items including sneaker details + quantity
+app.get("/sneakers/cart/all", async (req, res) => {
+  try {
+    const cartSneakers = await getCartSneakers();
+
+    if (cartSneakers.length > 0) {
+      res.status(200).json({ message: "All Sneakers from cart are found.", data: cartSneakers });
+    } else {
+      res.status(200).json({ message: "No Sneakers in cart.", data: [] });
     }
-    catch(error) {
-        res.status(500).send({error: "Failed to Found the Sneakers from the Cart."})
-    }
-})
+  } catch (error) {
+    res.status(500).json({ error: "Failed to find sneakers from the cart." });
+  }
+});
+
 
 //11. API for delete the Sneakers from the Cart.
 const deleteSneakersCart = async(sneakersId) => {
