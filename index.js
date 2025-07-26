@@ -284,7 +284,7 @@ app.post("/sneakers/cart/add", async(req, res) => {
 //10. API to get all Sneakers from Cart..
 const getCartSneakers = async() => {
     try{
-        const getCart = await CartAdded.find().populate("sneakersInCart")
+        const getCart = await CartAdded.find().populate("sneakersCart")
         return getCart
     } 
     catch(error){
@@ -292,7 +292,7 @@ const getCartSneakers = async() => {
     }
 }
 
-app.get("/sneakers/cart/get", async(req, res) => {
+app.get("/sneakers/cart/all", async(req, res) => {
     try{
         const cartSneakers = await getCartSneakers()
         if(cartSneakers.length > 0) {
@@ -309,7 +309,7 @@ app.get("/sneakers/cart/get", async(req, res) => {
 //11. API for delete the Sneakers from the Cart.
 const deleteSneakersCart = async(sneakersId) => {
     try{
-        const deletedCartSneakers = await CartAdded.findByIdAndDelete(sneakersId).populate("sneakersInCart")
+        const deletedCartSneakers = await CartAdded.findByIdAndDelete(sneakersId).populate("sneakersCart")
         return deletedCartSneakers
     }
     catch(error) {
@@ -334,7 +334,7 @@ app.delete("/sneakers/cart/delete/:sneakersId", async(req, res) => {
 //API to update cart
 const updateSneakersCart = async (sneakerId, updatedDetails) => {
     try{
-        const updateSneakers = await CartAdded.findByIdAndUpdate(sneakerId, updatedDetails, {new: true}).populate("sneakersInCart")
+        const updateSneakers = await CartAdded.findByIdAndUpdate(sneakerId, updatedDetails, {new: true}).populate("sneakersCart")
         const saveSneakers = await updateSneakers.save()
         return saveSneakers
     }
