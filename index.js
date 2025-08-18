@@ -255,31 +255,8 @@ app.delete("/sneakers/wishlist/delete/:sneakersId", async(req, res) => {
     }
 })
 
-//9.API to add Sneakers to the cart..
-const addCart = async(cartSneakers) => {
-    try {
-    const addSneakersCart = new CartAdded(cartSneakers)
-    const savedCart = await addSneakersCart.save()
-    return savedCart
-    }
-    catch(error) {
-        console.log("error occured while adding new Sneakers to Cart.")
-    }
-}
 
-app.post("/sneakers/cart/add", async(req, res) => {
-    try{
-        const sneakersCart = await addCart(req.body)
-        if(sneakersCart){
-            res.status(200).send({message: "sneakers successfully added to Cart."})
-        } else {
-            res.status(404).send({error: "Failed to found the Sneakers."})
-        }
-    } 
-    catch(error) {
-        res.status(500).send({error: "Failed to add Sneakers to the Cart."})
-    }
-})
+
 
 //10. API to get all Sneakers from Cart..
 const getCartSneakers = async() => {
@@ -394,7 +371,7 @@ const getAddress = async() => {
     }
 } 
 
-app.delete("/sneakers/address/get", async(req, res) => {
+app.get("/sneakers/address/get", async(req, res) => {
     try{
         const foundedAddress = await getAddress(req.body)
         if(foundedAddress.length > 0){
@@ -419,7 +396,7 @@ const addressDelete = async(addressId) => {
     }
 }
 
-app.delete("sneakers/address/delete/:sneakersId", async(req, res) => {
+app.delete("/sneakers/address/delete/:addressId", async(req, res) => {
     try{
         const addressDeleted = await addressDelete(req.params.addressId)
         if(addressDeleted.length > 0) {
