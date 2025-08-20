@@ -394,7 +394,7 @@ const getAddress = async() => {
     }
 } 
 
-app.delete("/sneakers/address/get", async(req, res) => {
+app.get("/sneakers/address/get", async(req, res) => {
     try{
         const foundedAddress = await getAddress(req.body)
         if(foundedAddress.length > 0){
