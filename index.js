@@ -433,6 +433,33 @@ app.delete("/sneakers/address/delete/:addressId", async(req, res) => {
     }
 })
 
+//function to update one address by id.
+const updateAddressById = async (addressId, updateData) => {
+    try{
+        const foundAddress = await Address.findByIdAndUpdate(addressId, updateData, {new: true});
+        const addressSaved = await foundAddress.save();
+        return addressSaved;
+    }
+    catch (error){
+        console.log("error occured while updating address, ",error);
+    }
+}
+
+app.post("/sneakers/address/update/:updateId", async (req, res) =>{
+    try{
+        const addressFound = await updateAddressById(req.params.updateId, req.body);
+        if(addressFound){
+            res.status(200).send({message: "Address updated successfully.", data: addressFound});
+        }else{
+            res.status(404).send({error: "No address found."});
+        }
+    }
+    catch (error) {
+        res.status(500).send({error: "failed to update address."});
+    }
+});
+
+
 //15. API to add order Sneakers.
 const addOrderSneakers = async(orderSneakers) => {
     try{
